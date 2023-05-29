@@ -1,25 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ContactsList from "./components/contacts/ContactsList";
+import ContactForm from "./components/contacts/ContactForm";
+import ContactPage from "./pages/Contact";
+import ViewContact from "./pages/Contact/ViewContact";
+import EditContactPage from "./pages/Contact/EditContact";
+import Layout from "./Layout/Layout";
+import Dashboard from "./pages/Dashboard";
+import { QueryClient, QueryClientProvider } from "react-query";
+import SampleForm from "./components/Form/SampleForm";
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: false,
+      staleTime: 50000,
+    },
+  },
+});
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <QueryClientProvider client={queryClient}>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<ContactPage />} />
+            <Route path="/map" element={<Dashboard />} />
+            <Route path="/new-contact" element={<ContactForm />} />
+            <Route path="/contacts/:id/edit" element={<EditContactPage />} />
+            <Route path="/contacts/:id" element={<ViewContact />} />
+          </Routes>
+        </Layout>
+      </QueryClientProvider>
+    </Router>
   );
 }
 

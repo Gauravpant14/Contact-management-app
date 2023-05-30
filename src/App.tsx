@@ -10,6 +10,8 @@ import Layout from "./Layout/Layout";
 import Dashboard from "./pages/Dashboard";
 import { QueryClient, QueryClientProvider } from "react-query";
 import SampleForm from "./components/Form/SampleForm";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -26,6 +28,7 @@ function App() {
     <Router>
       <QueryClientProvider client={queryClient}>
         <Layout>
+          <ToastContainer />
           <Routes>
             <Route path="/" element={<ContactPage />} />
             <Route path="/map" element={<Dashboard />} />

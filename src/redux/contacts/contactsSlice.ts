@@ -3,10 +3,14 @@ import { Contact } from "../types";
 
 interface ContactsState {
   contacts: Contact[];
+  showModal: boolean;
+  contactId:string;
 }
 
 const initialState: ContactsState = {
   contacts: [],
+  showModal: false,
+  contactId:""
 };
 
 const contactsSlice = createSlice({
@@ -14,7 +18,7 @@ const contactsSlice = createSlice({
   initialState,
   reducers: {
     addContact: (state, action: PayloadAction<Contact[]>) => {
-      state.contacts = [ ...action.payload];
+      state.contacts = [...action.payload];
     },
     editContact: (state, action: PayloadAction<Contact>) => {
       const { _id } = action.payload;
@@ -29,9 +33,16 @@ const contactsSlice = createSlice({
       const id = action.payload;
       state.contacts = state.contacts.filter((contact) => contact.id !== id);
     },
+    setShowModal: (state, action: PayloadAction<boolean>) => {
+      state.showModal = action.payload;
+    },
+    setContactId:(state, action: PayloadAction<string>) => {
+      state.contactId = action.payload;
+    },
   },
 });
 
-export const { addContact, editContact, deleteContact } = contactsSlice.actions;
+export const { addContact, editContact, deleteContact, setShowModal,setContactId } =
+  contactsSlice.actions;
 
 export default contactsSlice.reducer;

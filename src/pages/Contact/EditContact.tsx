@@ -9,6 +9,7 @@ import StackedRadioBtn from "../../components/Form/StackedRadioBtn";
 import { RadioGroup } from "../../components/contacts/ContactForm";
 import { updateContact, viewSpecificContact } from "../../api/api";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 
 const EditContactPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,10 +34,12 @@ const EditContactPage: React.FC = () => {
   const updateContactMutation = useMutation(updateContact, {
     onSuccess: (data) => {
       queryClient.invalidateQueries('contacts');
-      alert("Updated Successfully")
+      toast.success("Updated Successfully");
+      window.location.href= "/"
     },
     onError: () => {
       setName("");
+      toast.error("Something went wrong");
     }
   });
 

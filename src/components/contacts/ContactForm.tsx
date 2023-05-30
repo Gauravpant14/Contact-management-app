@@ -7,6 +7,7 @@ import StackedInput from "../Form/StackedInput";
 import StackedRadioBtn from "../Form/StackedRadioBtn";
 import { useMutation, useQueryClient } from "react-query";
 import { createContact } from '../../api/api';
+import { toast } from "react-toastify";
 export interface RadioOption {
   label: string;
   value: string;
@@ -26,11 +27,11 @@ const ContactForm: React.FC = () => {
         firstName: "",
         lastName: "",
       });
-      alert("Contact added successfully")
-      navigate("/");
+      toast.success("Contact added");
+     window.location.href= "/"
     },
     onError: (err:any) => {
-      alert(err?.message)
+      toast.error(err?.message);
     }
   });
   const [name, setName] = useState({
@@ -57,10 +58,7 @@ const ContactForm: React.FC = () => {
       lastName: name.lastName,
       status: radioGroup.selectedValue
     };
-
     addContactMutation.mutate(newContact);
-    // dispatch(addContact(newContact));
-   
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +71,6 @@ const ContactForm: React.FC = () => {
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-
     setRadioGroup((prevGroup) => ({
       ...prevGroup,
       selectedValue: value,

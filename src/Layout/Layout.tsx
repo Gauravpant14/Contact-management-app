@@ -2,36 +2,48 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Header from "../components/Header/Header";
 import useWindowDimensions from "../hooks/useWindowDimension";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { setNavOpen } from "../redux/contacts/contactsSlice";
 
 interface IProps {
   children: React.ReactNode;
 }
 const Layout = ({ children }: IProps) => {
   const { width } = useWindowDimensions();
+  const selector: any = useSelector<RootState>(
+    (state) => state.contacts
+  );
+  const navOpen = selector.navOpen
+  const dispatch = useDispatch();
   const [isNavExpanded, setIsNavExpanded] = useState(false);
-  const [navOpen, setNavOpen] = useState(false);
+
   let screensize = 768;
   useEffect(() => {
     if (width < screensize) {
       setIsNavExpanded(true);
-      setNavOpen(false);
+      dispatch(setNavOpen(false));
     } else {
       setIsNavExpanded(false);
-      setNavOpen(true);
+      dispatch(setNavOpen(true));
     }
   }, [width]);
+  console.log(navOpen, "check")
   return (
     <div>
       <Header />
       <div className="flex flex-col sm:flex-row">
-        <div className={`w-full sm:w-1/4 ${navOpen ? "" : "hidden"}`}>
-          <Sidebar />
-        </div>
+        {
+          <div className={`w-full sm:w-1/4 ${isNavExpanded ? navOpen ? "" : "hidden" : ""}`}>
+            <Sidebar />
+          </div>
+        }
+
         <div className="container mx-auto mt-12 px-4 sm:px-8 md:px-16 lg:px-20 xl:px-24 2xl:px-32">
           {
             isNavExpanded && <button
-              className="fixed top-4 right-4 z-50 p-2 rounded-md bg-gray-800 text-white"
-              onClick={() => setNavOpen(!navOpen)}
+              className="absolute top-4 right-4 z-50 p-2 rounded-md bg-gray-800 text-white"
+              onClick={() => dispatch(setNavOpen(!navOpen))}
             >
 
               <svg

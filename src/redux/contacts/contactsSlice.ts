@@ -5,12 +5,14 @@ interface ContactsState {
   contacts: Contact[];
   showModal: boolean;
   contactId:string;
+  navOpen:boolean;
 }
 
 const initialState: ContactsState = {
   contacts: [],
   showModal: false,
-  contactId:""
+  contactId:"",
+  navOpen: false,
 };
 
 const contactsSlice = createSlice({
@@ -39,10 +41,13 @@ const contactsSlice = createSlice({
     setContactId:(state, action: PayloadAction<string>) => {
       state.contactId = action.payload;
     },
+    setNavOpen:(state, action: PayloadAction<boolean>) => {
+      state.navOpen= action.payload;
+    },
   },
 });
 
-export const { addContact, editContact, deleteContact, setShowModal,setContactId } =
+export const { addContact, editContact, deleteContact, setShowModal,setContactId,setNavOpen } =
   contactsSlice.actions;
 
 export default contactsSlice.reducer;

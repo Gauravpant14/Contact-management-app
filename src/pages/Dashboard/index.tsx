@@ -72,7 +72,9 @@ const Dashboard: React.FC = () => {
 
   // Prepare data for line graph
   const dates = Object.keys(historicalData?.cases || {});
+ 
   const cases = dates.map((date) => historicalData?.cases[date]);
+  
   const chartData = {
     labels: dates,
     datasets: [
@@ -158,7 +160,7 @@ const Dashboard: React.FC = () => {
       )}
 
       <h2 className="text-xl font-bold my-4">Graph Data for Cases</h2>
-      {/* Showing last year data */}
+      {/* Showing last year data, show data of a week from one date to next */}
       {historicalData && <Line data={chartData} />}
     </div>
   );

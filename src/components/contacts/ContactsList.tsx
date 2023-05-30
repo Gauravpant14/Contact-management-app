@@ -33,7 +33,8 @@ const ContactsList: React.FC = () => {
   const navigate = useNavigate();
 
   const deleteContactHandler = (id: string) => {
-    deleteContactMutation.mutate(id)
+    deleteContactMutation.mutate(id);
+    dispatch(setShowModal(false))
   };
 
   const viewContactHandler = (id: string) => {

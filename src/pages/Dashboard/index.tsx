@@ -64,17 +64,22 @@ const Dashboard: React.FC = () => {
     }
   );
 
-  const countryIcon = L.icon({
-    iconUrl: search,
-    iconSize: [10, 10],
-    // ...add other icon options if needed
+  // const countryIcon = L.icon({
+  //   iconUrl: search,
+  //   iconSize: [10, 10],
+  //   // ...add other icon options if needed
+  // });
+  L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+    iconUrl: require('leaflet/dist/images/marker-icon.png'),
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
   });
 
   // Prepare data for line graph
   const dates = Object.keys(historicalData?.cases || {});
- 
+
   const cases = dates.map((date) => historicalData?.cases[date]);
-  
+
   const chartData = {
     labels: dates,
     datasets: [
@@ -129,13 +134,16 @@ const Dashboard: React.FC = () => {
           zoom={2}
           center={[20, 0]}
         >
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
           {countriesData.map((country) => (
-            
+
             <Marker
               key={country.country}
               position={[country.countryInfo.lat, country.countryInfo.long]}
-              icon={countryIcon}
+            // icon={countryIcon}
             >
               <Popup>
                 <div>
